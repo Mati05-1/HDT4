@@ -1,0 +1,40 @@
+meta {
+  name: POST year 1449 fuera de limite
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/books
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-API-Key: {{apiKey}}
+}
+
+body:json {
+  {
+    "title": "Libro de prueba",
+    "author": "Autor Prueba",
+    "year": 1449
+  }
+}
+
+assert {
+  res.status: eq 422
+}
+
+tests {
+  // Técnica ISTQB: Análisis de Valores Límite (BVA) - year = 1449 (justo debajo del mínimo, inválido)
+
+  test("Rechaza year = 1449 con 422", function () {
+    expect(res.getStatus()).to.equal(422);
+  });
+}
+
+docs {
+  Técnica ISTQB: Análisis de Valores Límite (BVA) - year = 1449, justo por debajo del límite.
+}

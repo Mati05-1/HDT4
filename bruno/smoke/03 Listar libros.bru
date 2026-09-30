@@ -1,0 +1,23 @@
+meta {
+  name: Listar libros
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/books
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("Tras el reset hay exactamente 3 libros", function () {
+    const items = Array.isArray(res.body) ? res.body : (res.body.items || res.body.books || res.body.data || []);
+    expect(items).to.be.an("array").with.lengthOf(3);
+  });
+}
+

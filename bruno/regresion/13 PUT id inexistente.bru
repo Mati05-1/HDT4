@@ -1,0 +1,40 @@
+meta {
+  name: PUT id inexistente
+  type: http
+  seq: 13
+}
+
+put {
+  url: {{baseUrl}}/books/999999
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-API-Key: {{apiKey}}
+}
+
+body:json {
+  {
+    "title": "Libro de prueba",
+    "author": "Autor Prueba",
+    "year": 2000
+  }
+}
+
+assert {
+  res.status: eq 404
+}
+
+tests {
+  // Técnica ISTQB: Partición de Equivalencia - clase inválida: id inexistente
+
+  test("PUT a un id inexistente da 404", function () {
+    expect(res.getStatus()).to.equal(404);
+  });
+}
+
+docs {
+  Técnica ISTQB: Partición de Equivalencia - clase inválida: id que no existe.
+}

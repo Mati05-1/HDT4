@@ -1,0 +1,41 @@
+meta {
+  name: POST title 120 caracteres
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/books
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-API-Key: {{apiKey}}
+}
+
+body:json {
+  {
+    "title": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "author": "Autor Prueba",
+    "year": 2000
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+tests {
+  // Técnica ISTQB: Análisis de Valores Límite (BVA) - title de 120 caracteres (máximo, válido)
+
+  test("Acepta un title de 120 caracteres", function () {
+    expect(res.getStatus()).to.equal(201);
+    expect(res.body.title).to.have.lengthOf(120);
+  });
+}
+
+docs {
+  Técnica ISTQB: Análisis de Valores Límite (BVA) - title de 120 caracteres, máximo válido.
+}

@@ -1,0 +1,41 @@
+meta {
+  name: PATCH cambia solo copies
+  type: http
+  seq: 12
+}
+
+patch {
+  url: {{baseUrl}}/books/{{bookId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-API-Key: {{apiKey}}
+}
+
+body:json {
+  {
+    "copies": 0
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  // Técnica ISTQB: Análisis de Valores Límite (BVA) - copies = 0 (mínimo válido)
+
+  test("PATCH cambia copies y deja el resto igual", function () {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.body.copies).to.equal(0);
+    expect(res.body.title).to.equal("El Aleph");
+    expect(res.body.year).to.equal(2100);
+  });
+}
+
+docs {
+  Técnica ISTQB: Análisis de Valores Límite (BVA) - copies = 0 (mínimo válido); además verifica que PATCH no toca los demás campos.
+}

@@ -1,0 +1,40 @@
+meta {
+  name: POST title 121 caracteres
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/books
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-API-Key: {{apiKey}}
+}
+
+body:json {
+  {
+    "title": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "author": "Autor Prueba",
+    "year": 2000
+  }
+}
+
+assert {
+  res.status: eq 422
+}
+
+tests {
+  // Técnica ISTQB: Análisis de Valores Límite (BVA) - title de 121 caracteres (inválido)
+
+  test("Rechaza un title de 121 caracteres con 422", function () {
+    expect(res.getStatus()).to.equal(422);
+  });
+}
+
+docs {
+  Técnica ISTQB: Análisis de Valores Límite (BVA) - title de 121 caracteres, justo sobre el máximo.
+}

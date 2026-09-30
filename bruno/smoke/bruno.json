@@ -1,0 +1,6 @@
+{
+  "version": "1",
+  "name": "smoke",
+  "type": "collection",
+  "ignore": ["node_modules", ".git"]
+}

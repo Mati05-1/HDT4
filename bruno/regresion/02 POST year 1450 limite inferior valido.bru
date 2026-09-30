@@ -1,0 +1,46 @@
+meta {
+  name: POST year 1450 limite inferior valido
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/books
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-API-Key: {{apiKey}}
+}
+
+body:json {
+  {
+    "title": "Biblia de Gutenberg",
+    "author": "Autor Prueba",
+    "year": 1450
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+tests {
+  // Técnica ISTQB: Análisis de Valores Límite (BVA) - year = 1450 (límite inferior, válido)
+
+  test("Acepta year = 1450", function () {
+    expect(res.getStatus()).to.equal(201);
+    expect(res.body.year).to.equal(1450);
+  });
+
+  const id = res.body && res.body.id !== undefined
+    ? res.body.id
+    : String(res.getHeader("location")).split("/").pop();
+  bru.setVar("bookId", id);
+}
+
+docs {
+  Técnica ISTQB: Análisis de Valores Límite (BVA) - year = 1450, límite inferior válido.
+}

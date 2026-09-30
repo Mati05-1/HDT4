@@ -1,0 +1,27 @@
+meta {
+  name: GET libro eliminado
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/books/{{bookId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+}
+
+tests {
+  // Técnica ISTQB: Transición de Estados - leer en el estado 'eliminado' debe dar 404
+
+  test("El libro eliminado ya no existe", function () {
+    expect(res.getStatus()).to.equal(404);
+  });
+}
+
+docs {
+  Técnica ISTQB: Transición de Estados - un libro eliminado ya no se puede leer.
+}

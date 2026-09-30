@@ -1,0 +1,32 @@
+meta {
+  name: DELETE libro
+  type: http
+  seq: 14
+}
+
+delete {
+  url: {{baseUrl}}/books/{{bookId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-API-Key: {{apiKey}}
+}
+
+assert {
+  res.status: eq 204
+}
+
+tests {
+  // Técnica ISTQB: Transición de Estados - existe -> eliminado
+
+  test("DELETE devuelve 204", function () {
+    expect(res.getStatus()).to.equal(204);
+  });
+}
+
+docs {
+  Técnica ISTQB: Transición de Estados - el libro pasa de 'existe' a 'eliminado'.
+}

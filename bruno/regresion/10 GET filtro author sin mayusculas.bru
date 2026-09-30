@@ -1,0 +1,32 @@
+meta {
+  name: GET filtro author sin mayusculas
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/books?author=BORGES
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  // Técnica ISTQB: Partición de Equivalencia - subcadena en MAYÚSCULAS debe coincidir sin distinguir mayúsculas
+
+  test("Todos los resultados contienen 'borges' en author", function () {
+    expect(res.getStatus()).to.equal(200);
+    const items = Array.isArray(res.body) ? res.body : (res.body.items || res.body.books || res.body.data || []);
+    expect(items.length).to.be.greaterThan(0);
+    items.forEach(function (b) {
+      expect(b.author.toLowerCase()).to.include("borges");
+    });
+  });
+}
+
+docs {
+  Técnica ISTQB: Partición de Equivalencia - filtro ?author= con subcadena en otra capitalización.
+}
